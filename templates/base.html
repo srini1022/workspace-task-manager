@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}Task Manager{% endblock %}</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
+    <nav class="navbar navbar-dark bg-dark px-3">
+      <a class="navbar-brand" href="{{ url_for('tasks.my_workspaces') }}">
+        Task Manager
+      </a>
+      <a href="{{ url_for('tasks.my_tasks') }}" class="nav-link"> My Tasks </a>
+
+      {% if current_user.is_authenticated %}
+      <div>
+        <a
+          href="{{ url_for('tasks.my_workspaces') }}"
+          class="btn btn-outline-light btn-sm me-2"
+        >
+          Workspaces
+        </a>
+        <a
+          href="{{ url_for('auth.logout') }}"
+          class="btn btn-outline-light btn-sm"
+        >
+          Logout
+        </a>
+      </div>
+      {% endif %}
+    </nav>
+
+    <div class="container mt-4">{% block content %}{% endblock %}</div>
+  </body>
+</html>

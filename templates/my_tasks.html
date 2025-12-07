@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<h3>My Tasks</h3>
+
+<ul class="list-group">
+
+{% for task in tasks %}
+  <li class="list-group-item">
+    <strong>{{ task.title }}</strong><br>
+
+    {% if task.description %}
+      {{ task.description }}<br>
+    {% endif %}
+
+    <small class="text-muted">
+      Status: {{ task.status }}
+    </small>
+
+    <!-- ✅ Status Update -->
+    <div class="mt-1">
+      {% if task.status != "TODO" %}
+      <a
+        href="{{ url_for('tasks.update_task_status',
+                         task_id=task.id,
+                         new_status='TODO') }}"
+        class="btn btn-sm btn-outline-secondary"
+      >
+        TODO
+      </a>
+      {% endif %}
+
+      {% if task.status != "IN_PROGRESS" %}
+      <a
+        href="{{ url_for('tasks.update_task_status',
+                         task_id=task.id,
+                         new_status='IN_PROGRESS') }}"
+        class="btn btn-sm btn-outline-warning"
+      >
+        IN PROGRESS
+      </a>
+      {% endif %}
+
+      {% if task.status != "DONE" %}
+      <a
+        href="{{ url_for('tasks.update_task_status',
+                         task_id=task.id,
+                         new_status='DONE') }}"
+        class="btn btn-sm btn-outline-success"
+      >
+        DONE
+      </a>
+      {% endif %}
+    </div>
+
+  </li>
+{% else %}
+  <li class="list-group-item text-muted">
+    No tasks assigned to you.
+  </li>
+{% endfor %}
+
+</ul>
+
+<a href="{{ url_for('tasks.my_workspaces') }}"
+   class="btn btn-secondary mt-3">
+   ← Back to Workspaces
+</a>
+
+{% endblock %}

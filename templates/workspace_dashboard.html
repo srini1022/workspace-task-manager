@@ -1,0 +1,121 @@
+{% extends "base.html" %} {% block title %}Workspace Dashboard{% endblock %} {%
+block content %}
+<h3>Workspace Tasks</h3>
+
+<!-- ✅ Add Member (Admin Only) -->
+{% if member.role == "admin" %}
+<a
+  href="{{ url_for('tasks.add_member', workspace_id=workspace_id) }}"
+  class="btn btn-success mb-3"
+>
+  + Add Member
+</a>
+{% endif %}
+{% if member.role == "admin" %}
+<a
+  href="{{ url_for('tasks.delete_workspace', workspace_id=workspace_id) }}"
+  class="btn btn-danger mb-3 ms-2"
+  onclick="return confirm('Delete this workspace and all its tasks?');"
+>
+  Delete Workspace
+</a>
+{% endif %}
+
+
+<!-- ✅ Add Task (Admin Only) -->
+{% if member.role == "admin" %}
+<form method="POST" class="mb-3">
+  <input
+    name="title"
+    class="form-control mb-2"
+    placeholder="Task title"
+    required
+  />
+
+  <textarea
+    name="description"
+    class="form-control mb-2"
+    placeholder="Task description"
+  ></textarea>
+
+  <!-- ✅ Assign Task -->
+  <select name="assigned_to" class="form-control mb-2">
+    <option value="">Unassigned</option>
+    {% for u in workspace_members %}
+    <option value="{{ u.id }}">{{ u.username }}</option>
+    {% endfor %}
+  </select>
+
+  <button class="btn btn-primary">Add Task</button>
+</form>
+{% endif %}
+
+<!-- ✅ Task List -->
+<ul class="list-group">
+  {% for task, assigned_user in tasks %}
+  <li class="list-group-item">
+    <strong>{{ task.title }}</strong><br />
+
+    {% if task.description %} {{ task.description }}<br />
+    {% endif %}
+
+    <small class="text-muted">
+      Assigned to: {% if assigned_user %} {{ assigned_user.username }} {% else
+      %} Unassigned {% endif %}
+    </small>
+
+    <!-- ✅ Task Status -->
+    <div class="mt-1">
+      <small>Status:</small>
+
+      {% if task.status != "TODO" %}
+      <a
+        href="{{ url_for('tasks.update_task_status',
+                         task_id=task.id,
+                         new_status='TODO') }}"
+        class="btn btn-sm btn-outline-secondary"
+      >
+        TODO
+      </a>
+      {% endif %} {% if task.status != "IN_PROGRESS" %}
+      <a
+        href="{{ url_for('tasks.update_task_status',
+                         task_id=task.id,
+                         new_status='IN_PROGRESS') }}"
+        class="btn btn-sm btn-outline-warning"
+      >
+        IN PROGRESS
+      </a>
+      {% endif %} {% if task.status != "DONE" %}
+      <a
+        href="{{ url_for('tasks.update_task_status',
+                         task_id=task.id,
+                         new_status='DONE') }}"
+        class="btn btn-sm btn-outline-success"
+      >
+        DONE
+      </a>
+      {% endif %}
+    </div>
+
+    <!-- ✅ DELETE TASK (Admin Only) -->
+    {% if member.role == "admin" %}
+    <a
+      href="{{ url_for('tasks.delete_task', task_id=task.id) }}"
+      class="btn btn-sm btn-outline-danger mt-2"
+      onclick="return confirm('Delete this task?');"
+    >
+      Delete
+    </a>
+    {% endif %}
+  </li>
+  {% else %}
+  <li class="list-group-item text-muted">No tasks yet.</li>
+  {% endfor %}
+</ul>
+
+<a href="{{ url_for('tasks.my_workspaces') }}" class="btn btn-secondary mt-3">
+  ← Back to Workspaces
+</a>
+
+{% endblock %}

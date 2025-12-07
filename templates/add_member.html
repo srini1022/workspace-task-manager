@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Add Member{% endblock %}
+
+{% block content %}
+<div class="col-md-6 mx-auto">
+    <h3>Add Member</h3>
+
+    <form method="POST">
+        <input
+            name="username"
+            class="form-control mb-3"
+            placeholder="Enter username"
+            required
+        >
+        <button class="btn btn-primary">Add</button>
+    </form>
+
+    <a
+      href="{{ url_for('tasks.workspace_dashboard', workspace_id=workspace_id) }}"
+      class="btn btn-secondary mt-3"
+    >
+      Back
+    </a>
+</div>
+{% endblock %}

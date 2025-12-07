@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block title %}Workspaces{% endblock %}
+
+{% block content %}
+<h3>My Workspaces</h3>
+
+<a href="{{ url_for('tasks.create_workspace') }}"
+   class="btn btn-success mb-3">
+   + Create Workspace
+</a>
+
+<ul class="list-group">
+{% for ws in workspaces %}
+    <li class="list-group-item">
+        <a href="{{ url_for('tasks.workspace_dashboard',
+                            workspace_id=ws.id) }}">
+            {{ ws.name }}
+        </a>
+    </li>
+{% else %}
+    <li class="list-group-item text-muted">
+        No workspaces yet.
+    </li>
+{% endfor %}
+</ul>
+{% endblock %}
