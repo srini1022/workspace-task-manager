@@ -49,38 +49,6 @@ A workspace-based task management system built with Flask and MySQL, supporting 
 
 ---
 
-## 🗂 Project Structure
-
-workspace-task-manager/
-│
-├── app.py
-├── config.py
-├── models.py
-├── auth_routes.py
-├── task_routes.py
-│
-├── templates/
-│ ├── base.html
-│ ├── login.html
-│ ├── register.html
-│ ├── workspaces.html
-│ ├── create_workspace.html
-│ ├── workspace_dashboard.html
-│ ├── add_member.html
-│ └── my_tasks.html
-│
-├── static/
-│
-├── db/
-│ └── schema.sql
-│
-├── requirements.txt
-├── README.md
-└── .gitignore
-
-
----
-
 ## ⚙️ Database Schema
 
 The database schema is available at:
